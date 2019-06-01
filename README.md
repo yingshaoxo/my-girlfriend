@@ -4,9 +4,9 @@ Just a unity3d game I made for myself.
 
 ### Requirements
 
-Unity-2018.3.0f2
+Unity-2019.1.0f2
 
-Ubuntu
+Ubuntu or Debian
 
 ### Support
 
