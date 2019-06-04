@@ -1,4 +1,7 @@
+﻿﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // This class corresponds to the 3rd person camera features.
 public class ThirdPersonOrbitCamBasic : MonoBehaviour 
@@ -71,14 +74,6 @@ public class ThirdPersonOrbitCamBasic : MonoBehaviour
 		else if (Input.GetKey(KeyCode.E)) {
 			angleV += Mathf.Clamp(-1, -1, 1) * 60 * verticalAimingSpeed * 5 * Time.deltaTime;
 		}
-		/*
-		if (Input.GetKeyDown(KeyCode.Q)) {
-			angleV += Mathf.Clamp(1, -1, 1) * 60 * verticalAimingSpeed * Time.deltaTime;
-        } else if (Input.GetKeyDown(KeyCode.E)) {
-			angleV += Mathf.Clamp(-1, -1, 1) * 60 * verticalAimingSpeed * Time.deltaTime;
-        }
-		*/
-		
 
 		// Set vertical movement limit.
 		angleV = Mathf.Clamp(angleV, minVerticalAngle, targetMaxVerticalAngle);
