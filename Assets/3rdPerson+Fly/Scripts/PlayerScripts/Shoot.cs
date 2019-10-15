@@ -5,8 +5,7 @@ using UnityEngine;
 public class Shoot : MonoBehaviour
 {
     public GameObject ball;
-    public GameObject plants;
-    public float speed = 15;
+    public float speed = 20;
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +17,11 @@ public class Shoot : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.J)) {
             shoot();
-        } else if (Input.GetButtonDown("Fire2") || Input.GetKeyDown(KeyCode.K)) {
-            put_in_plants();
         }
     }
 
     void shoot() {
-        Vector3 front_position = transform.position + transform.forward + new Vector3(0f,0.8f,0f);
+        Vector3 front_position = transform.position + transform.forward + new Vector3(0f,1f,0f);
         GameObject new_obj  = Instantiate(
             ball, 
             front_position, 
@@ -37,8 +34,11 @@ public class Shoot : MonoBehaviour
         new_obj.GetComponent<Rigidbody>().mass = 100;
         // push the ball forward
         new_obj.GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3(0,0,speed));
+        // destroy the ball after 20 seconds
+        Destroy(new_obj, 20);
     }
 
+    /*
     void put_in_plants() {
         Vector3 front_position = transform.position + (transform.forward*20) + new Vector3(0f,0.01f,0f);
         GameObject new_obj  = Instantiate(
@@ -46,6 +46,6 @@ public class Shoot : MonoBehaviour
             front_position, 
             Quaternion.identity
         );
-        //new_obj.GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3(0,0,speed));
-    }
+    } 
+    */
 }

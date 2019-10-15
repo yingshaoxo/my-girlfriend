@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // This class corresponds to the 3rd person camera features.
 public class ThirdPersonOrbitCamBasic : MonoBehaviour 
@@ -59,15 +60,37 @@ public class ThirdPersonOrbitCamBasic : MonoBehaviour
 
 	void Update()
 	{
-		// Get mouse movement to orbit the camera.
+
 		// Mouse:
-		angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
-		angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
+		if (SystemInfo.deviceType == DeviceType.Handheld) // in mobile
+		{
+			if (Input.touchCount == 1) {
+				//angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
+				//angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
+			}
+			if (Input.touchCount == 2)
+			{
+				if (Input.GetTouch(1).position.x < (Screen.width * 4/5))
+				{ 
+					angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
+					angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
+				}
+				else if ((Input.GetTouch(1).position.x > (Screen.width * 4/5) && Input.GetTouch(1).position.y > (Screen.height * 1/3)))
+				{
+					angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
+					angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
+				}
+			}
+		} else { // in desktop
+			angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
+			angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
+		}
+		// Get mouse movement to orbit the camera.
 		// Joystick:
 		angleH += Mathf.Clamp(Input.GetAxis(XAxis), -1, 1) * 60 * horizontalAimingSpeed * Time.deltaTime;
 		angleV += Mathf.Clamp(Input.GetAxis(YAxis), -1, 1) * 60 * verticalAimingSpeed * Time.deltaTime;
 		// key Q or E
-		float moveSpeed = 2;
+		//float moveSpeed = 2;
 		if (Input.GetKey(KeyCode.Q)) {
 			angleV += Mathf.Clamp(1, -1, 1) * 60 * verticalAimingSpeed * 5 * Time.deltaTime;
 		}
