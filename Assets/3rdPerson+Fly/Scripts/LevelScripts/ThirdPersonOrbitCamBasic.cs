@@ -60,7 +60,6 @@ public class ThirdPersonOrbitCamBasic : MonoBehaviour
 
 	void Update()
 	{
-
 		// Mouse:
 		if (SystemInfo.deviceType == DeviceType.Handheld) // in mobile
 		{
