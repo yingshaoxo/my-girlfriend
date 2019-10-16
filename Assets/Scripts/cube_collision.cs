@@ -21,7 +21,7 @@ public class cube_collision : MonoBehaviour
         if(col.gameObject.name.Contains("Cube"))
         {
             Destroy(col.gameObject, 3);
-            Destroy(gameObject, 3);
+            Destroy(gameObject);
         }
     }
 }

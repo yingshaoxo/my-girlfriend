@@ -63,23 +63,8 @@ public class ThirdPersonOrbitCamBasic : MonoBehaviour
 		// Mouse:
 		if (SystemInfo.deviceType == DeviceType.Handheld) // in mobile
 		{
-			if (Input.touchCount == 1) {
-				//angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
-				//angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
-			}
-			if (Input.touchCount == 2)
-			{
-				if (Input.GetTouch(1).position.x < (Screen.width * 4/5))
-				{ 
-					angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
-					angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
-				}
-				else if ((Input.GetTouch(1).position.x > (Screen.width * 4/5) && Input.GetTouch(1).position.y > (Screen.height * 1/3)))
-				{
-					angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
-					angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
-				}
-			}
+			angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1);
+			angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1);
 		} else { // in desktop
 			angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
 			angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
