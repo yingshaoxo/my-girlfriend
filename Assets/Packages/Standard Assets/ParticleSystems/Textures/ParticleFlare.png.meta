@@ -1,5 +1,8 @@
 fileFormatVersion: 2
 guid: 76b24fa8a46a2c14f9a7df1e975dc4b9
+labels:
+- fx
+- texture
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 2
@@ -50,3 +53,4 @@ TextureImporter:
   spritePackingTag: 
   userData: 
   assetBundleName: 
+  assetBundleVariant: 

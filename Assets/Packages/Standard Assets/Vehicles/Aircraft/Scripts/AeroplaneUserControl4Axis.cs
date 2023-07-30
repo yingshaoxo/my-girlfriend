@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
+
 
 namespace UnityStandardAssets.Vehicles.Aeroplane
 {
@@ -28,11 +28,11 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         private void FixedUpdate()
         {
             // Read input for the pitch, yaw, roll and throttle of the aeroplane.
-            float roll = CrossPlatformInputManager.GetAxis("Mouse X");
-            float pitch = CrossPlatformInputManager.GetAxis("Mouse Y");
-            m_AirBrakes = CrossPlatformInputManager.GetButton("Fire1");
-            m_Yaw = CrossPlatformInputManager.GetAxis("Horizontal");
-            m_Throttle = CrossPlatformInputManager.GetAxis("Vertical");
+            float roll = Input.GetAxis("Mouse X");
+            float pitch = Input.GetAxis("Mouse Y");
+            m_AirBrakes = Input.GetButton("Fire1");
+            m_Yaw = Input.GetAxis("Horizontal");
+            m_Throttle = Input.GetAxis("Vertical");
 #if MOBILE_INPUT
         AdjustInputForMobileControls(ref roll, ref pitch, ref m_Throttle);
 #endif
