@@ -29,8 +29,6 @@ public class my_girl_controller : MonoBehaviour
     void Update()
     {
         Prone_Management();
-
-        Vector3 screen_center_point = main_camera.ScreenToWorldPoint(new Vector3(0.5f, 0.5f, main_camera.nearClipPlane));
     }
 
     void Prone_Management() {
