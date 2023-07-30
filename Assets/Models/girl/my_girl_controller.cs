@@ -28,6 +28,12 @@ public class my_girl_controller : MonoBehaviour
 
     void Update()
     {
+        Prone_Management();
+
+        Vector3 screen_center_point = main_camera.ScreenToWorldPoint(new Vector3(0.5f, 0.5f, main_camera.nearClipPlane));
+    }
+
+    void Prone_Management() {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (stand) {
@@ -59,7 +65,6 @@ public class my_girl_controller : MonoBehaviour
         // }
     }
 
-    // Deal with the basic player movement
     void MovementManagement(float horizontal, float vertical)
     {
         // Call function that deals with player orientation.
