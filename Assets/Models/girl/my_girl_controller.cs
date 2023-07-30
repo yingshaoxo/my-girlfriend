@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class my_girl_controller : MonoBehaviour
 {
+    public GameObject test_object;
+
     Animator anim;
     public Camera main_camera;
     Rigidbody rigidbody;
+
     bool stand = true;
+    bool on_right_mouse_click_holding = false;
 
 	public float turnSmoothing = 0.06f;                   // Speed of turn when moving to match camera facing.
 	public float walkSpeed = 0.15f;                 // Default walk speed.
@@ -18,17 +22,37 @@ public class my_girl_controller : MonoBehaviour
 
 	private float speed, speedSeeker;               // Moving speed.
 
+    public float mouse_sensitivity = 30f;
     void Start()
     {
        rigidbody = gameObject.GetComponent<Rigidbody>();
 
        anim = GetComponent<Animator>(); 
        speedFloat = Animator.StringToHash("Speed");
+
+    //    Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
+        rotate_body_by_using_mouse();
         Prone_Management();
+    }
+
+    void rotate_body_by_using_mouse() {
+        if (Input.GetMouseButtonDown(1)) {
+            on_right_mouse_click_holding = true;
+        }
+        if (Input.GetMouseButtonUp(1)) {
+            on_right_mouse_click_holding = false;
+        }
+
+
+        if (on_right_mouse_click_holding) {
+            // when user hold right mouse key, we use mouse to lead the character
+            transform.rotation = main_camera.transform.rotation;
+            // transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, main_camera.transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
     }
 
     void Prone_Management() {

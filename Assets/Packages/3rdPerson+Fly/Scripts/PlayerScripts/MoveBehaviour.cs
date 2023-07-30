@@ -49,6 +49,7 @@ public class MoveBehaviour : GenericBehaviour
 
 		// Call the jump manager.
 		JumpManagement();
+
 	}
 
 	// Execute the idle and walk/run jump movements.
