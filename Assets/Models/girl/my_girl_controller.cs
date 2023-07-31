@@ -6,9 +6,11 @@ public class my_girl_controller : MonoBehaviour
 {
     public GameObject test_object;
 
-    Animator anim;
+    Animator animator;
     public Camera main_camera;
     Rigidbody rigidbody;
+    public GameObject looking_target;
+    public GameObject laser_object;
 
     bool stand = true;
     bool on_right_mouse_click_holding = false;
@@ -27,10 +29,10 @@ public class my_girl_controller : MonoBehaviour
     {
        rigidbody = gameObject.GetComponent<Rigidbody>();
 
-       anim = GetComponent<Animator>(); 
+       animator = GetComponent<Animator>(); 
        speedFloat = Animator.StringToHash("Speed");
 
-    //    Cursor.lockState = CursorLockMode.Locked;
+       Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -47,11 +49,21 @@ public class my_girl_controller : MonoBehaviour
             on_right_mouse_click_holding = false;
         }
 
+        Vector3 camera_center_point = main_camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        Vector3 ray_end_point = camera_center_point + (main_camera.transform.forward * 5);
 
-        if (on_right_mouse_click_holding) {
-            // when user hold right mouse key, we use mouse to lead the character
-            transform.rotation = main_camera.transform.rotation;
-            // transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, main_camera.transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        if ((ray_end_point.y - 1.3f) > transform.position.y) {
+            ray_end_point.y = transform.position.y + 1.3f;
+        }
+
+        if (on_right_mouse_click_holding == false) {
+            looking_target.transform.position = ray_end_point;
+            test_object.transform.rotation = main_camera.transform.rotation;
+        } else {
+            animator.Play("shooting");
+            // Always rotates the player according to the camera horizontal rotation in aim mode.
+            Quaternion targetRotation =  Quaternion.Euler(0, main_camera.transform.eulerAngles.y, 0);
+            transform.rotation = targetRotation;
         }
     }
 
@@ -59,10 +71,10 @@ public class my_girl_controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (stand) {
-                anim.Play("prone_idle");
+                animator.Play("prone_idle");
                 stand = false;
             } else {
-                anim.Play("stand_up");
+                animator.Play("stand_up");
                 stand = true;
             }
         }
@@ -71,9 +83,9 @@ public class my_girl_controller : MonoBehaviour
         float v = Input.GetAxis("Vertical");
         if (stand == false) {
             if (h == 0 && v == 0) {
-                anim.Play("prone_idle");
+                animator.Play("prone_idle");
             } else {
-                anim.Play("prone_forward");
+                animator.Play("prone_forward");
                 MovementManagement(h, v);
             }
         }
@@ -100,7 +112,7 @@ public class my_girl_controller : MonoBehaviour
         speedSeeker = Mathf.Clamp(speedSeeker, walkSpeed, runSpeed);
         speed *= speedSeeker;
 
-        anim.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
+        animator.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
     }
 
 	// Rotate the player to match correct orientation, according to camera and key pressed.

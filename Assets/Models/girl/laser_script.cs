@@ -12,6 +12,8 @@ public class laser_script : MonoBehaviour
  
     LineRenderer laserLine;
     float fireTimer;
+
+    public RaycastHit hit_point;
  
     void Start()
     {
@@ -20,6 +22,7 @@ public class laser_script : MonoBehaviour
     void Awake()
     {
         laserLine = GetComponent<LineRenderer>();
+        laserLine.SetWidth(0.001f, 0.001f);
     }
  
     void Update()
@@ -30,19 +33,33 @@ public class laser_script : MonoBehaviour
             fireTimer = 0;
             laserLine.SetPosition(0, laserOrigin.position);
             Vector3 camera_center_point = playerCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-            RaycastHit hit;
             Vector3 ray_start_point = camera_center_point + (playerCamera.transform.forward * 5);
-            if(Physics.Raycast(ray_start_point, playerCamera.transform.forward, out hit, gunRange))
+            if(Physics.Raycast(ray_start_point, playerCamera.transform.forward, out hit_point, gunRange))
             {
-                laserLine.SetPosition(1, hit.point);
+                laserLine.SetPosition(1, hit_point.point);
                 // Destroy(hit.transform.gameObject);
             }
             else
             {
-                laserLine.SetPosition(1, ray_start_point + (playerCamera.transform.forward * gunRange));
+                hit_point.point = ray_start_point + (playerCamera.transform.forward * gunRange);
+                laserLine.SetPosition(1, hit_point.point);
             }
             StartCoroutine(ShootLaser());
         }
+
+
+        // laserLine.SetPosition(0, laserOrigin.position);
+        // Vector3 camera_center_point = playerCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        // Vector3 ray_start_point = camera_center_point + (playerCamera.transform.forward * 5);
+        // if(Physics.Raycast(ray_start_point, playerCamera.transform.forward, out hit_point, gunRange))
+        // {
+        //     laserLine.SetPosition(1, hit_point.point);
+        // }
+        // else
+        // {
+        //     hit_point.point = ray_start_point + (playerCamera.transform.forward * gunRange);
+        //     laserLine.SetPosition(1, hit_point.point);
+        // }
     }
  
     IEnumerator ShootLaser()
