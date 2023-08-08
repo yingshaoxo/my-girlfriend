@@ -112,7 +112,7 @@ public class MoveBehaviour : GenericBehaviour
 		}
 
 		// Call function that deals with player orientation.
-		Rotating(horizontal, vertical);
+		// Rotating(horizontal, vertical);
 
 		// Set proper speed.
 		Vector2 dir = new Vector2(horizontal, vertical);

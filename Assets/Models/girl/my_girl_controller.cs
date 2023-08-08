@@ -38,7 +38,10 @@ public class my_girl_controller : MonoBehaviour
     void Update()
     {
         rotate_body_by_using_mouse();
-        Prone_Management();
+
+        move_body_by_using_keyboard();
+
+        prone_management();
     }
 
     void rotate_body_by_using_mouse() {
@@ -52,22 +55,30 @@ public class my_girl_controller : MonoBehaviour
         Vector3 camera_center_point = main_camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         Vector3 ray_end_point = camera_center_point + (main_camera.transform.forward * 5);
 
-        if ((ray_end_point.y - 1.3f) > transform.position.y) {
-            ray_end_point.y = transform.position.y + 1.3f;
-        }
-
         if (on_right_mouse_click_holding == false) {
-            looking_target.transform.position = ray_end_point;
-            test_object.transform.rotation = main_camera.transform.rotation;
         } else {
             animator.Play("shooting");
-            // Always rotates the player according to the camera horizontal rotation in aim mode.
-            Quaternion targetRotation =  Quaternion.Euler(0, main_camera.transform.eulerAngles.y, 0);
-            transform.rotation = targetRotation;
+        }
+
+        looking_target.transform.position = ray_end_point;
+        // test_object.transform.rotation = main_camera.transform.rotation;
+
+        Quaternion targetRotation =  Quaternion.Euler(0, main_camera.transform.eulerAngles.y, 0);
+        transform.rotation = targetRotation;
+    }
+
+    void move_body_by_using_keyboard() {
+        if (stand == true) {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+
+            if (!(h == 0 && v == 0)) {
+                move_management_for_standing(h, v);
+            }
         }
     }
 
-    void Prone_Management() {
+    void prone_management() {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (stand) {
@@ -82,11 +93,13 @@ public class my_girl_controller : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         if (stand == false) {
+            looking_target.transform.position = new Vector3(looking_target.transform.position.x, transform.position.y - 50, looking_target.transform.position.z);
+
             if (h == 0 && v == 0) {
                 animator.Play("prone_idle");
             } else {
                 animator.Play("prone_forward");
-                MovementManagement(h, v);
+                move_management_for_prone(h, v);
             }
         }
 
@@ -99,7 +112,45 @@ public class my_girl_controller : MonoBehaviour
         // }
     }
 
-    void MovementManagement(float horizontal, float vertical)
+    void move_management_for_standing(float horizontal, float vertical)
+    {
+        // // Set proper speed.
+        // Vector2 dir = new Vector2(horizontal, vertical);
+        // speed = Vector2.ClampMagnitude(dir, 1f).magnitude;
+        // // This is for PC only, gamepads control speed via analog stick.
+        // speedSeeker += Input.GetAxis("Mouse ScrollWheel");
+        // speedSeeker = Mathf.Clamp(speedSeeker, walkSpeed, runSpeed);
+        // speed *= speedSeeker;
+
+        // animator.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
+        float move_delta = 0.28f;
+
+        if (horizontal > 0) {
+            transform.Translate(move_delta,0,0);
+        } else if (horizontal < 0) {
+            transform.Translate(-move_delta,0,0);
+        }
+
+        if (vertical > 0) {
+            // forward
+            move_delta = 0.15f;
+            transform.Translate(0,0,move_delta);
+        } else if (vertical < 0) {
+            // backward
+            move_delta = 0.4f;
+            transform.Translate(0,0,-move_delta);
+        }
+
+        // if (inputDirection != Vector2.zero) // otherwise it snaps back to forward without input
+        // {
+        //     // using the rotation of the camera as well as our input axis to determine target rotation
+        //     float targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg + main_camera.transform.eulerAngles.y;
+        //     transform.eulerAngles = Vector3.up * targetRotation;
+        // }
+    }
+
+
+    void move_management_for_prone(float horizontal, float vertical)
     {
         // Call function that deals with player orientation.
         Rotating(horizontal, vertical);

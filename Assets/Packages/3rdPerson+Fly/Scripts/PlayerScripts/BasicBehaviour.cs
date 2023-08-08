@@ -309,13 +309,13 @@ public class BasicBehaviour : MonoBehaviour
 	// Put the player on a standing up position based on last direction faced.
 	public void Repositioning()
 	{
-		if(lastDirection != Vector3.zero)
-		{
-			lastDirection.y = 0;
-			Quaternion targetRotation = Quaternion.LookRotation (lastDirection);
-			Quaternion newRotation = Quaternion.Slerp(rBody.rotation, targetRotation, turnSmoothing);
-			rBody.MoveRotation (newRotation);
-		}
+		// if(lastDirection != Vector3.zero)
+		// {
+		// 	lastDirection.y = 0;
+		// 	Quaternion targetRotation = Quaternion.LookRotation (lastDirection);
+		// 	Quaternion newRotation = Quaternion.Slerp(rBody.rotation, targetRotation, turnSmoothing);
+		// 	rBody.MoveRotation (newRotation);
+		// }
 	}
 
 	// Function to tell whether or not the player is on ground.
