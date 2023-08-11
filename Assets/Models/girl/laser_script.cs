@@ -46,20 +46,6 @@ public class laser_script : MonoBehaviour
             }
             StartCoroutine(ShootLaser());
         }
-
-
-        // laserLine.SetPosition(0, laserOrigin.position);
-        // Vector3 camera_center_point = playerCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-        // Vector3 ray_start_point = camera_center_point + (playerCamera.transform.forward * 5);
-        // if(Physics.Raycast(ray_start_point, playerCamera.transform.forward, out hit_point, gunRange))
-        // {
-        //     laserLine.SetPosition(1, hit_point.point);
-        // }
-        // else
-        // {
-        //     hit_point.point = ray_start_point + (playerCamera.transform.forward * gunRange);
-        //     laserLine.SetPosition(1, hit_point.point);
-        // }
     }
  
     IEnumerator ShootLaser()

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class my_girl_controller : MonoBehaviour
 {
-    public GameObject test_object;
-
     Animator animator;
     public Camera main_camera;
     Rigidbody rigidbody;
     public GameObject looking_target;
     public GameObject laser_object;
+
+    private RaycastHit hit_point;
+    public float gun_range = 1000f;
 
     bool stand = true;
     bool on_right_mouse_click_holding = false;
@@ -38,6 +39,8 @@ public class my_girl_controller : MonoBehaviour
 
     void Update()
     {
+        move_looking_target();
+
         rotate_body_by_using_mouse();
 
         move_body_by_using_keyboard();
@@ -45,6 +48,20 @@ public class my_girl_controller : MonoBehaviour
         jump_management();
 
         prone_management();
+    }
+
+    void move_looking_target() {
+        Vector3 camera_center_point = main_camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        Vector3 ray_start_point = camera_center_point + (main_camera.transform.forward * 5);
+        if(Physics.Raycast(ray_start_point, main_camera.transform.forward, out hit_point, gun_range))
+        {
+            // laserLine.SetPosition(1, hit_point.point);
+        }
+        else
+        {
+            hit_point.point = ray_start_point + (main_camera.transform.forward * gun_range);
+        }
+        looking_target.transform.position = hit_point.point;
     }
 
     bool is_on_ground()
@@ -68,16 +85,10 @@ public class my_girl_controller : MonoBehaviour
             on_right_mouse_click_holding = false;
         }
 
-        Vector3 camera_center_point = main_camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-        Vector3 ray_end_point = camera_center_point + (main_camera.transform.forward * 5);
-
         if (on_right_mouse_click_holding == false) {
         } else {
             animator.Play("shooting");
         }
-
-        looking_target.transform.position = ray_end_point;
-        // test_object.transform.rotation = main_camera.transform.rotation;
 
         Quaternion targetRotation =  Quaternion.Euler(0, main_camera.transform.eulerAngles.y, 0);
         transform.rotation = targetRotation;
