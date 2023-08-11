@@ -25,6 +25,7 @@ public class my_girl_controller : MonoBehaviour
 	private float speed, speedSeeker;               // Moving speed.
 
     public float mouse_sensitivity = 30f;
+
     void Start()
     {
        rigidbody = gameObject.GetComponent<Rigidbody>();
@@ -41,7 +42,22 @@ public class my_girl_controller : MonoBehaviour
 
         move_body_by_using_keyboard();
 
+        jump_management();
+
         prone_management();
+    }
+
+    bool is_on_ground()
+    {
+        float _distanceToTheGround = GetComponent<Collider>().bounds.extents.y;
+        return Physics.Raycast(transform.position, Vector3.down, _distanceToTheGround + 0.1f);
+    }
+
+    void jump_management() {
+        if (Input.GetButton("Jump") && is_on_ground())
+        {
+            animator.Play("jump_start");
+        }
     }
 
     void rotate_body_by_using_mouse() {
@@ -114,15 +130,6 @@ public class my_girl_controller : MonoBehaviour
 
     void move_management_for_standing(float horizontal, float vertical)
     {
-        // // Set proper speed.
-        // Vector2 dir = new Vector2(horizontal, vertical);
-        // speed = Vector2.ClampMagnitude(dir, 1f).magnitude;
-        // // This is for PC only, gamepads control speed via analog stick.
-        // speedSeeker += Input.GetAxis("Mouse ScrollWheel");
-        // speedSeeker = Mathf.Clamp(speedSeeker, walkSpeed, runSpeed);
-        // speed *= speedSeeker;
-
-        // animator.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
         float move_delta = 0.28f;
 
         if (horizontal > 0) {
