@@ -7,10 +7,12 @@ public class fire_script : MonoBehaviour
     public GameObject bullet_object;
     private bool in_fire = false;
 
+    private IEnumerator fire_function;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        fire_function = fire();
     }
 
     // Update is called once per frame
@@ -18,13 +20,15 @@ public class fire_script : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) {
             in_fire = true;
+
+            StartCoroutine(fire_function);
         }
 
         if (Input.GetMouseButtonUp(0)) {
             in_fire = false;
-        }
 
-        StartCoroutine(fire());
+            StopCoroutine(fire_function);
+        }
     }
 
     IEnumerator fire()
@@ -33,7 +37,7 @@ public class fire_script : MonoBehaviour
         {
             if (in_fire == true) {
                 Instantiate(bullet_object, transform.position, bullet_object.transform.rotation);
-                float random_delay = Random.Range(0.8f, 2.0f);
+                float random_delay = Random.Range(0.1f, 0.3f);
                 yield return new WaitForSeconds(random_delay);
             } else {
                 break;
