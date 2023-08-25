@@ -34,7 +34,7 @@ public class fire_script : MonoBehaviour
             StopCoroutine(fire_function);
         }
 
-        rotate_gun();
+        // rotate_gun();
     }
 
     void rotate_gun() {
@@ -47,7 +47,7 @@ public class fire_script : MonoBehaviour
         while (true)
         {
             if (in_fire == true) {
-                // rotate_gun();
+                rotate_gun();
                 Instantiate(bullet_object, transform.position, bullet_object.transform.rotation);
                 muzzle_flash_effect_particle.Play();
                 float random_delay = Random.Range(0.1f, 0.3f);
