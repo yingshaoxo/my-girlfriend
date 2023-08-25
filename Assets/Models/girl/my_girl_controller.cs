@@ -9,6 +9,7 @@ public class my_girl_controller : MonoBehaviour
     Rigidbody rigidbody;
     public GameObject looking_target;
     public GameObject laser_object;
+    // public GameObject gun_object;
 
     private RaycastHit hit_point;
     public float gun_range = 1000f;
@@ -40,6 +41,8 @@ public class my_girl_controller : MonoBehaviour
     void Update()
     {
         move_looking_target();
+
+        // rotate_gun();
 
         rotate_body_by_using_mouse();
 
@@ -93,6 +96,12 @@ public class my_girl_controller : MonoBehaviour
         Quaternion targetRotation =  Quaternion.Euler(0, main_camera.transform.eulerAngles.y, 0);
         transform.rotation = targetRotation;
     }
+
+    // void rotate_gun() {
+    //     Quaternion targetRotation =  Quaternion.Euler(main_camera.transform.eulerAngles.x, main_camera.transform.eulerAngles.y, main_camera.transform.eulerAngles.z);
+    //     // Quaternion targetRotation =  Quaternion.Euler(looking_target.transform.eulerAngles.x, looking_target.transform.eulerAngles.y, looking_target.transform.eulerAngles.z);
+    //     gun_object.transform.rotation = targetRotation;
+    // }
 
     void move_body_by_using_keyboard() {
         if (stand == true) {
