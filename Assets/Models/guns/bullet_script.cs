@@ -41,6 +41,11 @@ public class bullet_script : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "ignore")
+        {
+            return;
+        }
+
         Destroy(gameObject);
 
         GameObject a_explosion = Instantiate(explosion_object, transform.position, transform.rotation);
